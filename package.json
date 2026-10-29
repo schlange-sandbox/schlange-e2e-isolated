@@ -5,6 +5,6 @@
   "dependencies": {
     "ms": "2.1.1",
     "semver": "7.5.0",
-    "is-number": "6.0.0"
+    "is-number": "7.0.0"
   }
 }
