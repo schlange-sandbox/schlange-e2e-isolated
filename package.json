@@ -4,7 +4,7 @@
   "description": "Deliberately outdated dependencies, so that Dependabot opens real patch, minor and major PRs.",
   "dependencies": {
     "ms": "2.1.1",
-    "semver": "7.5.0",
+    "semver": "7.8.5",
     "is-number": "6.0.0"
   }
 }
