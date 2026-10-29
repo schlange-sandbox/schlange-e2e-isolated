@@ -1,0 +1,40 @@
+name: PR gate
+
+# Imitation of arzt-agent/.github/workflows/pr-gate.yml: required check
+# `Risk class and data protection`. Like Arztagent, only Mergify's queue PRs are exempt;
+# Schlange drafts must pass the normal heading check. The risk classifier is not modeled here.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Risk class and data protection
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUEUE: ${{ startsWith(github.head_ref, 'mergify/merge-queue/') && github.event.pull_request.user.login == 'mergify[bot]' }}
+    steps:
+      - if: env.QUEUE == 'true'
+        run: echo "Queue PR of Mergify; the PRs it contains passed this check."
+      - name: Data protection section
+        if: env.QUEUE != 'true'
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          if printf '%s' "$BODY" | grep -qiE '^#{1,6}[[:space:]]*Datenschutz'; then
+            echo "Section Datenschutz present."
+          elif [ "$AUTHOR" = 'dependabot[bot]' ]; then
+            echo "Dependabot PR; no Datenschutz section needed."
+          else
+            echo "::error::PRs need a Datenschutz (data protection) section in the description."
+            exit 1
+          fi
