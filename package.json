@@ -3,7 +3,7 @@
   "private": true,
   "description": "Deliberately outdated dependencies, so that Dependabot opens real patch, minor and major PRs.",
   "dependencies": {
-    "ms": "2.1.1",
+    "ms": "2.1.3",
     "semver": "7.5.0",
     "is-number": "6.0.0"
   }
