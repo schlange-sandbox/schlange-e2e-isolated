@@ -1,2 +1,2 @@
 Shared file for text conflicts between scenario PRs.
-line: main (s12-schlange-e2e-isolated-20261103-084704)
+line: b (s13-schlange-e2e-isolated-20261103-090914)
